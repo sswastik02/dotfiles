@@ -1,0 +1,13 @@
+[font]
+size=14
+
+[window]
+padding.x=5
+padding.y=5
+opacity=0.85
+
+[colors.primary]
+background="#000000"
+
+[shell]
+program = "/bin/zsh"
