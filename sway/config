@@ -210,10 +210,29 @@ bindsym $mod+Shift+Return exec systemctl suspend
 bindsym XF86AudioRaiseVolume exec pamixer -i 5
 bindsym XF86AudioLowerVolume exec pamixer -d 5
 bindsym XF86AudioMute exec pamixer -t
+bindsym Print exec grim -g "$(slurp)"
 
 #
 # Drop Down terminal
 #
+
+set $ddterm-id dropdown-terminal
+set $ddterm $term --class $ddterm-id
+set $ddterm-resize resize set 100ppt 40ppt, move position 0 0
+
+# resize/move new dropdown terminal windows
+for_window [app_id="$ddterm-id"] {
+  floating enable
+  $ddterm-resize
+  move to scratchpad
+  scratchpad show
+}
+
+# show existing or start new dropdown terminal
+bindsym Ctrl+Escape exec swaymsg '[app_id="$ddterm-id"] scratchpad show' \
+  || $ddterm \
+  && sleep .1 && swaymsg '[app_id="$ddterm-id"] $ddterm-resize'
+# ^-- resize again, case moving to different output
 
 # Status Bar:
 #
