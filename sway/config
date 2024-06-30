@@ -211,14 +211,17 @@ bindsym XF86AudioRaiseVolume exec pamixer -i 5
 bindsym XF86AudioLowerVolume exec pamixer -d 5
 bindsym XF86AudioMute exec pamixer -t
 bindsym Print exec grim -g "$(slurp)"
+mode "resize" {
+	bindsym m resize grow height 1080px
+}
 
 #
 # Drop Down terminal
 #
 
 set $ddterm-id dropdown-terminal
-set $ddterm $term --class $ddterm-id
-set $ddterm-resize resize set 100ppt 40ppt, move position 0 0
+set $ddterm $term --class $ddterm-id --command tmux -u new 
+set $ddterm-resize resize set 100ppt 40ppt, move absolute position 0 0
 
 # resize/move new dropdown terminal windows
 for_window [app_id="$ddterm-id"] {
@@ -228,10 +231,12 @@ for_window [app_id="$ddterm-id"] {
   scratchpad show
 }
 
+exec swaymsg '[app_id="$ddterm-id"] $ddterm-resize'
+
 # show existing or start new dropdown terminal
 bindsym Ctrl+Escape exec swaymsg '[app_id="$ddterm-id"] scratchpad show' \
-  || $ddterm \
-  && sleep .1 && swaymsg '[app_id="$ddterm-id"] $ddterm-resize'
+  || $ddterm && \
+	sleep .1 && $ddterm-resize
 # ^-- resize again, case moving to different output
 
 # Status Bar:

@@ -12,6 +12,7 @@ do
 	bat_status=$(cat /sys/class/power_supply/BAT0/status)
 	interface=$(ip route | awk '/default/ {print $5}')
 	ip=$(hostname -I | awk '{print $1}')
+	cpu_freq=$(grep MHz /proc/cpuinfo | awk '{print $4}' | awk '{temp+=$1;n++} END{printf("%f\n", temp/n);}')
 
 	rx_bytes=$(cat /proc/net/dev | grep $interface | awk '{print $2}')
 	tx_bytes=$(cat /proc/net/dev | grep $interface | awk '{print $10}')
@@ -26,5 +27,7 @@ do
 	tx_speed=$(( ($tx_bytes_new - $tx_bytes) / 1024 ))
 	_
 
-	echo "$hostname ($ip) 📡 ┆ $linux 🐧 ┆ $up 🚀 ┆ $rx_speed KB/s ⬇️ $tx_speed KB/s ⬆️ ┆ $vol% 🔊 ┆ $d  ┆ $bat% 🔋[$bat_status] "  
+	echo "$hostname ($ip) 📡 ┆ $linux 🐧 ┆ $up 🚀 ┆ $rx_speed KB/s ⬇️ $tx_speed KB/s ⬆️ ┆ $vol% 🔊 ┆ $cpu_freq MHz 🔳 ┆ $d  ┆ $bat% 🔋[$bat_status] "  
+
+
 done
