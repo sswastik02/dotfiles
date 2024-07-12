@@ -4,9 +4,12 @@
 #
 # Read `man 5 sway` for a complete reference.
 
+set $top_gap 30
 ### Window Config
 default_border pixel 5
 client.focused #AF69EF #AF69EF #AF69EF
+gaps top $top_gap
+# swaybar height
 ### Variables
 #
 # Logo key. Use Mod1 for Alt.
@@ -17,11 +20,11 @@ set $down j
 set $up k
 set $right l
 # Your preferred terminal emulator
-set $term alacritty 
+set $term foot 
 # Your preferred application launcher
 # Note: pass the final command to swaymsg so that the resulting window can be opened
 # on the original workspace that the command was run on.
-set $menu rofi -show run | xargs swaymsg exec --
+set $menu fuzzel 
 
 include /etc/sway/config-vars.d/*
 
@@ -69,7 +72,7 @@ exec swayidle -w \
 # Basics:
 #
     # Start a terminal
-    bindsym $mod+Return exec $term
+    bindsym $mod+Return exec $term /usr/bin/zsh
 
     # Kill focused window
     bindsym $mod+Shift+q kill
@@ -146,16 +149,14 @@ exec swayidle -w \
     # You can "split" the current object of your focus with
     # $mod+b or $mod+v, for horizontal and vertical splits
     # respectively.
-    bindsym $mod+b splith
-    bindsym $mod+v splitv
 
     # Switch the current container between different layout styles
-    bindsym $mod+s layout stacking
+    bindsym $mod+t layout stacking
     bindsym $mod+w layout tabbed
     bindsym $mod+e layout toggle split
 
     # Make the current focus fullscreen
-    bindsym $mod+f fullscreen
+    bindsym $mod+f fullscreen; exec '[ "$(swaymsg -t get_bar_config bar-0 | jq -r ".mode")" = "overlay" ] && swaymsg bar mode invisible || swaymsg bar mode overlay' 
 
     # Toggle the current focus between tiling and floating mode
     bindsym $mod+Shift+space floating toggle
@@ -166,17 +167,17 @@ exec swayidle -w \
     # Move focus to the parent container
     bindsym $mod+a focus parent
 #
-# Scratchpad:
+# Scratchpad: (Don't wanna use scratchpad)
 #
     # Sway has a "scratchpad", which is a bag of holding for windows.
     # You can send windows there and get them back later.
 
     # Move the currently focused window to the scratchpad
-    bindsym $mod+Shift+minus move scratchpad
+    # bindsym $mod+Shift+minus move scratchpad
 
     # Show the next scratchpad window or hide the focused scratchpad window.
     # If there are multiple scratchpad windows, this command cycles through them.
-    bindsym $mod+minus scratchpad show
+    # bindsym $mod+minus scratchpad show
 #
 # Resizing containers:
 #
@@ -211,8 +212,26 @@ bindsym XF86AudioRaiseVolume exec pamixer -i 5
 bindsym XF86AudioLowerVolume exec pamixer -d 5
 bindsym XF86AudioMute exec pamixer -t
 bindsym Print exec grim -g "$(slurp)"
+bindsym $mod+b mode bar 
+bindsym $mod+s mode split 
+mode "split" {
+    bindsym h splith; mode default
+    bindsym v splitv; mode default
+    # Return to default mode
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+mode "bar" {
+		
+    bindsym t exec '[ "$(swaymsg -t get_bar_config bar-0 | jq -r ".mode")" = "overlay" ] && swaymsg bar mode invisible || swaymsg bar mode overlay'; mode default
+    bindsym h bar mode invisible; mode default;
+    bindsym s bar mode overlay; mode default;
+    # Return to default mode
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
 mode "resize" {
-	bindsym m resize grow height 1080px
+    bindsym m resize set 100ppt 100ppt, move position 0 0, mode default
 }
 
 #
@@ -220,8 +239,8 @@ mode "resize" {
 #
 
 set $ddterm-id dropdown-terminal
-set $ddterm $term --class $ddterm-id --command tmux -u new 
-set $ddterm-resize resize set 100ppt 40ppt, move absolute position 0 0
+set $ddterm $term --app-id="$ddterm-id" tmux -u
+set $ddterm-resize resize set 100ppt 40ppt, move absolute position 0 $top_gap 
 
 # resize/move new dropdown terminal windows
 for_window [app_id="$ddterm-id"] {
@@ -230,8 +249,6 @@ for_window [app_id="$ddterm-id"] {
   move to scratchpad
   scratchpad show
 }
-
-exec swaymsg '[app_id="$ddterm-id"] $ddterm-resize'
 
 # show existing or start new dropdown terminal
 bindsym Ctrl+Escape exec swaymsg '[app_id="$ddterm-id"] scratchpad show' \
@@ -244,16 +261,14 @@ bindsym Ctrl+Escape exec swaymsg '[app_id="$ddterm-id"] scratchpad show' \
 # Read `man 5 sway-bar` for more information about this section.
 bar {
     position top
-    mode hide
-    gaps 5 
+    mode overlay 
     height 30 
     font "Terminus (TTF)"
     workspace_min_width 100 
 
     # When the status_command prints a new line to stdout, swaybar updates.
     # The default just shows the current date and time.
-    status_command $HOME/.config/sway/bar.sh 
-
+    status_command $HOME/.config/sway/bar.sh || echo "loading"
     colors {
         statusline #FFFFFFFF
         background #000000CF

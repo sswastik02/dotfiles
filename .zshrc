@@ -8,7 +8,7 @@ export ZSH="$HOME/.oh-my-zsh"
 # load a random theme each time Oh My Zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="powerlevel10k/powerlevel10k"
+ZSH_THEME="agnosterzak"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -104,7 +104,6 @@ source $ZSH/oh-my-zsh.sh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 alias clear="clear -x"
 alias wipe="tput clear"
-source ~/.p10k.zsh
 export PATH="/home/sswastik02/.local/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games"
 export PATH="$PATH:/opt/nvim-linux64/bin"
 export GPG_TTY=$(tty)
