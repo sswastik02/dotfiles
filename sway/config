@@ -156,7 +156,7 @@ exec swayidle -w \
     bindsym $mod+e layout toggle split
 
     # Make the current focus fullscreen
-    bindsym $mod+f fullscreen; exec '[ "$(swaymsg -t get_bar_config bar-0 | jq -r ".mode")" = "overlay" ] && swaymsg bar mode invisible || swaymsg bar mode overlay' 
+    bindsym $mod+f fullscreen;
 
     # Toggle the current focus between tiling and floating mode
     bindsym $mod+Shift+space floating toggle
@@ -214,9 +214,12 @@ bindsym XF86AudioMute exec pamixer -t
 bindsym Print exec grim -g "$(slurp)"
 bindsym $mod+b mode bar 
 bindsym $mod+s mode split 
+bindsym $mod+v mode vol
+
 mode "split" {
     bindsym h splith; mode default
     bindsym v splitv; mode default
+    bindsym c exec grim -g "$(slurp)"; mode default
     # Return to default mode
     bindsym Return mode "default"
     bindsym Escape mode "default"
@@ -234,13 +237,21 @@ mode "resize" {
     bindsym m resize set 100ppt 100ppt, move position 0 0, mode default
 }
 
+mode "vol" {
+    bindsym k exec pamixer -i 5
+    bindsym j exec pamixer -d 5
+    # Return to default mode
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+
 #
 # Drop Down terminal
 #
 
 set $ddterm-id dropdown-terminal
 set $ddterm $term --app-id="$ddterm-id" tmux -u
-set $ddterm-resize resize set 100ppt 40ppt, move absolute position 0 $top_gap 
+set $ddterm-resize resize set 100ppt 40ppt, move position 0 0
 
 # resize/move new dropdown terminal windows
 for_window [app_id="$ddterm-id"] {

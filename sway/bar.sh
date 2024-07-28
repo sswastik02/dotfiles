@@ -6,7 +6,7 @@ hostname=$(hostname)
 while true 
 do
 	
-	d=$(date +'%Y-%m-%d 🗓️ │ %X ⌛')
+	d=$(date +'%Y-%m-%d 🗓️ │ %H:%M 🕒')
 	vol=$(pamixer --get-volume)
 	up=$(uptime | cut -d ',' -f1 | cut -d ' ' -f4,5)
 	bat=$(cat /sys/class/power_supply/BAT0/capacity)
@@ -22,7 +22,7 @@ do
 		tx_bytes=$(cat /proc/net/dev | grep $interface | awk '{print $10}')
 	fi
 
-	sleep 1
+	sleep 1 
 
 	if [ -z "$interface" ]; then
 		rx_bytes_new=0
@@ -34,8 +34,10 @@ do
 	
 	rx_speed=$(( ($rx_bytes_new - $rx_bytes) / 1024 ))
 	tx_speed=$(( ($tx_bytes_new - $tx_bytes) / 1024 ))
+	cpu_freq_GHz=$(echo "scale=2; $cpu_freq / 1000" | bc)
+	cpu_freq_GHz=$(printf "%.2f" "$cpu_freq_GHz")
 
-	echo -e "$hostname ($ip) 📡 │ $linux 🐧 │ $up 🚀 │ $rx_speed KB/s ⬇️ $tx_speed KB/s ⬆️ │ $vol% 🔊 │ $cpu_freq MHz 🔳 │ $d  │ $bat% 🔋[$bat_status] "  
+	echo -e "$hostname ($ip) 📡 │ $linux 🐧 │ $up 🚀 │ $rx_speed KB/s ⬇️ $tx_speed KB/s ⬆️ │ $vol% 🔊 │ $cpu_freq_GHz GHz 🔳 │ $d  │ $bat% 🔋[$bat_status] "  
 
 
 done

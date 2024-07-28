@@ -14,6 +14,11 @@ return {
       defaults = {
         path_display = { "smart" },
       },
+      pickers = {
+        find_files = {
+          hidden = true,
+        },
+      },
     })
 
     telescope.load_extension("fzf")
