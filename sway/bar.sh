@@ -39,5 +39,4 @@ do
 
 	echo -e "$hostname ($ip) 📡 │ $linux 🐧 │ $up 🚀 │ $rx_speed KB/s ⬇️ $tx_speed KB/s ⬆️ │ $vol% 🔊 │ $cpu_freq_GHz GHz 🔳 │ $d  │ $bat% 🔋[$bat_status] "  
 
-
 done

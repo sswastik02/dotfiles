@@ -244,6 +244,8 @@ mode "vol" {
     bindsym Return mode "default"
     bindsym Escape mode "default"
 }
+for_window [class="firefox-esr"] inhibit_idle fullscreen
+exec_always $HOME/.config/sway/adjust_bar.sh
 
 #
 # Drop Down terminal
