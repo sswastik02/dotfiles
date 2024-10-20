@@ -44,8 +44,8 @@ output * bg ~/.config/sway/wallpaper.jpg  fill
 # Example configuration:
 #
 exec swayidle -w \
-          timeout 150 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
-	  timeout 155 'systemctl suspend' \
+          timeout 300 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
+	  timeout 400 'systemctl suspend' \
           before-sleep 'swaylock -f -c 000000'
 #
 # This will lock your screen after 100 seconds of inactivity, then turn off
