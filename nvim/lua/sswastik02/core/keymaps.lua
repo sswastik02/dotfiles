@@ -16,4 +16,10 @@ vim.keymap.set("n", "<leader>to", "<cmd>tabnew<CR>", { desc = "Open a new buffer
 vim.keymap.set("n", "<leader>tx", "<cmd>tabclose<CR>", { desc = "Close buffer" })
 vim.keymap.set("n", "<leader>tn", "<cmd>tabn<CR>", { desc = "Next Buffer" })
 vim.keymap.set("n", "<leader>tp", "<cmd>tabp<CR>", { desc = "Prev Buffer" })
+
+-- system clipboard
+vim.keymap.set("n", "<leader>p", "\"+p", { desc = "copy to system clipboard" })
+vim.keymap.set("v", "<leader>y", "\"+y", { desc = "paste from system clipboard" })
+
+
 vim.cmd("nnoremap <silent> <Esc> <Esc>:noh<CR>")
