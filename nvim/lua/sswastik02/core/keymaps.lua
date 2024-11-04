@@ -16,7 +16,20 @@ vim.keymap.set("n", "<leader>to", "<cmd>tabnew<CR>", { desc = "Open a new buffer
 vim.keymap.set("n", "<leader>tx", "<cmd>tabclose<CR>", { desc = "Close buffer" })
 vim.keymap.set("n", "<leader>tn", "<cmd>tabn<CR>", { desc = "Next Buffer" })
 vim.keymap.set("n", "<leader>tp", "<cmd>tabp<CR>", { desc = "Prev Buffer" })
+vim.keymap.set("n", "<leader>t0", "<cmd>tabl<CR>", { desc = "Prev Buffer" })
 
+local function goto_tab(num)
+  local tabnr = tonumber(num)
+  if tabnr and tabnr > 0 then
+    vim.cmd('tabnext ' .. tabnr)
+  else
+    print('Invalid tab number: ' .. num)
+  end
+end
+
+for i = 1, 9 do
+  vim.keymap.set('n', '<leader>t'..i, function() goto_tab(i) end, { noremap = true, silent = true })
+end
 -- system clipboard
 vim.keymap.set("n", "<leader>p", "\"+p", { desc = "copy to system clipboard" })
 vim.keymap.set("v", "<leader>y", "\"+y", { desc = "paste from system clipboard" })
