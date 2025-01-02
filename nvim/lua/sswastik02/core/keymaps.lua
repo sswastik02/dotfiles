@@ -16,7 +16,9 @@ vim.keymap.set("n", "<leader>to", "<cmd>tabnew<CR>", { desc = "Open a new buffer
 vim.keymap.set("n", "<leader>tx", "<cmd>tabclose<CR>", { desc = "Close buffer" })
 vim.keymap.set("n", "<leader>tn", "<cmd>tabn<CR>", { desc = "Next Buffer" })
 vim.keymap.set("n", "<leader>tp", "<cmd>tabp<CR>", { desc = "Prev Buffer" })
-vim.keymap.set("n", "<leader>t0", "<cmd>tabl<CR>", { desc = "Prev Buffer" })
+vim.keymap.set("n", "<leader>t0", "<cmd>tabl<CR>", { desc = "Last Buffer" })
+vim.keymap.set("n", "<leader>tc", "<cmd>tab split<CR>", { desc = "Copy Buffer" })
+
 
 local function goto_tab(num)
   local tabnr = tonumber(num)
@@ -31,8 +33,8 @@ for i = 1, 9 do
   vim.keymap.set('n', '<leader>t'..i, function() goto_tab(i) end, { noremap = true, silent = true })
 end
 -- system clipboard
-vim.keymap.set("n", "<leader>p", "\"+p", { desc = "copy to system clipboard" })
-vim.keymap.set("v", "<leader>y", "\"+y", { desc = "paste from system clipboard" })
+vim.keymap.set({"n", "v"}, "<leader>p", "\"+p", { desc = "copy to system clipboard" })
+vim.keymap.set({"n", "v"}, "<leader>y", "\"+y", { desc = "paste from system clipboard" })
 
 
 vim.cmd("nnoremap <silent> <Esc> <Esc>:noh<CR>")

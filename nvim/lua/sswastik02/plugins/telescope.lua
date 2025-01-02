@@ -9,13 +9,26 @@ return {
   config = function()
     local telescope = require("telescope")
     local actions = require("telescope.actions")
+    local action_state = require("telescope.actions.state")
 
     telescope.setup({
       defaults = {
+          mappings = {
+            i = {
+              ["<C-r>"] = function(prompt_bufnr)
+                local current_picker = action_state.get_current_picker(prompt_bufnr)
+                current_picker:delete_selection(function() return true end)
+              end
+            },
+          },
+        layout_config = {
+          horizontal = { width = 0.9 }
+        },
         path_display = { "smart" },
       },
       pickers = {
         find_files = {
+          -- find hidden files too
           hidden = true,
         },
       },
@@ -30,5 +43,7 @@ return {
     keymap.set("n", "<leader>fr", "<cmd>Telescope oldfiles<cr>", { desc = "Fuzzy find recent files" })
     keymap.set("n", "<leader>fw", "<cmd>Telescope live_grep<cr>", { desc = "Find string in cwd" }) -- make sure ripgrep is installed
     keymap.set("n", "<leader>fc", "<cmd>Telescope grep_string<cr>", { desc = "Find string under cursor in cwd" })
+    keymap.set("n", "<leader>fb", "<cmd>Telescope buffers<cr>", { desc = "List Buffers" })
+
   end,
 }

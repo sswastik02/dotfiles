@@ -14,4 +14,8 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 -- Load plugins
-require("lazy").setup({ { import = "sswastik02.plugins" }, { import = "sswastik02.plugins.lsp" } })
+require("lazy").setup({
+  { import = "sswastik02.plugins" },
+  { import = "sswastik02.plugins.lsp" },
+  { import = "sswastik02.plugins.dap" },
+})
