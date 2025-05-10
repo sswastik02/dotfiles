@@ -4,11 +4,9 @@
 #
 # Read `man 5 sway` for a complete reference.
 
-set $top_gap 30
 ### Window Config
 default_border pixel 5
 client.focused #AF69EF #AF69EF #AF69EF
-gaps top $top_gap
 # swaybar height
 ### Variables
 #
@@ -73,7 +71,7 @@ exec swayidle -w \
 # Basics:
 #
     # Start a terminal
-    bindsym $mod+Return exec $term /usr/bin/zsh
+    bindsym $mod+Return exec $term /run//current-system/sw/bin/zsh
 
     # Kill focused window
     bindsym $mod+Shift+q kill
@@ -208,15 +206,15 @@ bindsym $mod+r mode "resize"
 # Custom Key Binds
 #
 
-bindsym $mod+Shift+Return exec systemctl suspend
+bindsym $mod+Q exec systemctl suspend
 bindsym XF86AudioRaiseVolume exec pamixer -i 5
 bindsym XF86AudioLowerVolume exec pamixer -d 5
 bindsym XF86AudioMute exec pamixer -t
-bindsym Print exec grim -g "$(slurp)"
-bindsym $mod+b mode bar 
+bindsym Print exec 'grim -g "$(slurp)" - | tee "$(date +'%Y%m%d_%Hh%Mm%Ss').png" | wl-copy'
 bindsym $mod+s mode split 
 bindsym $mod+v mode vol
 bindsym $mod+d mode "display"
+bindsym $mod+i mode "idle"
 
 mode "display" {
     # Switch focus between monitors using h/j/k/l
@@ -232,20 +230,12 @@ mode "display" {
 mode "split" {
     bindsym h splith; mode default
     bindsym v splitv; mode default
-    bindsym c exec grim -g "$(slurp)"; mode default
+    bindsym c exec 'grim -g "$(slurp)" - | tee "$(date +'%Y%m%d_%Hh%Mm%Ss').png" | wl-copy'; mode default
     # Return to default mode
     bindsym Return mode "default"
     bindsym Escape mode "default"
 }
-mode "bar" {
-		
-    bindsym t exec '[ "$(swaymsg -t get_bar_config bar-0 | jq -r ".mode")" = "overlay" ] && swaymsg bar mode invisible || swaymsg bar mode overlay'; mode default
-    bindsym h bar mode invisible; mode default;
-    bindsym s bar mode overlay; mode default;
-    # Return to default mode
-    bindsym Return mode "default"
-    bindsym Escape mode "default"
-}
+
 mode "resize" {
     bindsym m resize set 100ppt 100ppt, move position 0 0, mode default
 }
@@ -257,8 +247,15 @@ mode "vol" {
     bindsym Return mode "default"
     bindsym Escape mode "default"
 }
+
+mode "idle" {
+  bindsym o inhibit_idle open; mode default
+  bindsym n inhibit_idle none; mode default
+  # Return to default mode
+  bindsym Return mode "default"
+  bindsym Escape mode "default"
+}
 for_window [class="firefox-esr"] inhibit_idle fullscreen
-exec_always $HOME/.config/sway/adjust_bar.sh
 
 #
 # Drop Down terminal
@@ -286,22 +283,9 @@ bindsym Ctrl+Escape exec swaymsg '[app_id="$ddterm-id"] scratchpad show' \
 #
 # Read `man 5 sway-bar` for more information about this section.
 bar {
+    swaybar_command waybar 
     position top
-    mode overlay 
-    height 30 
-    font "Terminus (TTF)"
-    workspace_min_width 100 
-
-    # When the status_command prints a new line to stdout, swaybar updates.
-    # The default just shows the current date and time.
-    status_command $HOME/.config/sway/bar.sh || echo "loading"
-    colors {
-        statusline #FFFFFFFF
-        background #000000CF
-
-	focused_workspace #323232ff #AF69EFFF #FFFFFFFC
-        inactive_workspace #323232ff #000000CF #5c5c5c
-    }
+    mode dock 
 }
 
 include /etc/sway/config.d/*

@@ -72,7 +72,6 @@ ZSH_THEME="agnosterzak"
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(git zsh-autosuggestions zsh-syntax-highlighting)
 
-source $ZSH/oh-my-zsh.sh
 
 # User configuration
 
@@ -104,25 +103,11 @@ source $ZSH/oh-my-zsh.sh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 alias clear="clear -x"
 alias wipe="tput clear"
-export PATH="$PATH:/opt/nvim-linux64/bin"
-export PATH="$PATH:/usr/local/go/bin"
-export PATH="$PATH:/usr/sbin"
-export ANDROID_HOME="$HOME/Android/Sdk"
-export ANDROID_SDK_HOME="$HOME/Android/Sdk"
-export ANDROID_SDK_ROOT="$HOME/Android/Sdk"
-export PATH="$PATH:$ANDROID_HOME/cmdline-tools/latest/bin"
-export PATH="$PATH:$ANDROID_HOME/platform-tools"
-export PATH="$PATH:$ANDROID_HOME/emulator"
-for dir in $ANDROID_HOME/build-tools/**; do
-  export PATH="$PATH:$dir"
-done
+alias nix-zshell="nix-shell --run zsh"
 export GOPATH="$HOME/go"
 export GOBIN="$GOPATH/bin"
 export PATH="$PATH:$GOBIN"
 export GPG_TTY=$(tty)
+export GIT_EDITOR=vim
 
-PATH="/home/$USER/perl5/bin${PATH:+:${PATH}}"; export PATH;
-PERL5LIB="/home/$USER/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB;
-PERL_LOCAL_LIB_ROOT="/home/$USER/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"; export PERL_LOCAL_LIB_ROOT;
-PERL_MB_OPT="--install_base \"/home/$USER/perl5\""; export PERL_MB_OPT;
-PERL_MM_OPT="INSTALL_BASE=/home/$USER/perl5"; export PERL_MM_OPT;
+source $ZSH/oh-my-zsh.sh
