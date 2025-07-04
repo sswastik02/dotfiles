@@ -326,8 +326,8 @@ prompt_dir() {
 # Virtualenv: current working virtualenv
 prompt_virtualenv() {
   local virtualenv_path="$VIRTUAL_ENV"
-  if [[ -n $virtualenv_path && -n $VIRTUAL_ENV_DISABLE_PROMPT ]]; then
-    prompt_segment blue black "(`basename $virtualenv_path`)"
+  if [[ -n $virtualenv_path ]]; then
+    prompt_segment blue black "`basename $virtualenv_path`"
   fi
 }
 
@@ -346,7 +346,7 @@ prompt_hostname() {
 prompt_status() {
   local symbols
   symbols=()
-  [[ $RETVAL -ne 0 ]] && symbols+="%{%F{red}%}$CROSS"
+  [[ $RETVAL -ne 0 ]] && symbols+="%{%F{red}%}$CROSS $RETVAL"
   [[ $UID -eq 0 ]] && symbols+="%{%F{yellow}%}$LIGHTNING"
   [[ $(jobs -l | wc -l) -gt 0 ]] && symbols+="%{%F{cyan}%}$GEAR"
 
@@ -360,13 +360,13 @@ build_prompt() {
   prompt_status
   prompt_time
   prompt_hostname
-  prompt_virtualenv
   prompt_dir
   prompt_git
   prompt_hg
   prompt_end
   CURRENT_BG='NONE'
   print -n "\n"
+  prompt_virtualenv
   prompt_context
   prompt_end
 }
