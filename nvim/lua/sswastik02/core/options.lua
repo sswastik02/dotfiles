@@ -2,7 +2,6 @@
 vim.g.netrw_liststyle=3
 
 -- line number
-vim.opt.relativenumber=true
 vim.opt.number=true
 
 -- tabs and indentation
