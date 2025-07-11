@@ -62,6 +62,7 @@ return {
       dashboard.button("SPC fs", "  > Find Word", "<cmd>Telescope live_grep<CR>"),
       dashboard.button("q", "  > Quit NVIM", "<cmd>qa<CR>"),
     }
+    dashboard.section.header.opts.hl = "AlphaHeader"
     vim.cmd([[autocmd FileType alpha setlocal nofoldenable]])
     alpha.setup(dashboard.opts)
   end,

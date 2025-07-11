@@ -4,8 +4,13 @@ return {
   version = "*",
   opts = {
     options = {
+      diagnostics = "nvim_lsp",
       mode = "tabs",
-      separator_style="slant",
+    },
+    highlights = {
+      fill = {
+        bg = "#FFFFFF",
+      }
     }
   }
 }
