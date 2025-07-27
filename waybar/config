@@ -212,7 +212,7 @@
 	},
   
   "custom/uptime": {
-    "exec": "uptime | cut -d ',' -f1 | cut -d ' ' -f7-8",
+    "exec": "awk '{print int($1/86400)\"d:\"int($1%86400/3600)\"h:\"int(($1%3600)/60)\"m\"}' /proc/uptime",
     "interval": 60,
     "format": "↑ {} "
   }

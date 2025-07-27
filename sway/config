@@ -288,4 +288,6 @@ bar {
     mode dock 
 }
 
+seat * xcursor_theme capitaine-cursors 24
+
 include /etc/sway/config.d/*
