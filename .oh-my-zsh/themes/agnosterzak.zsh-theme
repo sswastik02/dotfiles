@@ -188,7 +188,7 @@ prompt_git() {
     ref=$(git symbolic-ref HEAD 2> /dev/null) || ref="➦ $(git rev-parse --short HEAD 2> /dev/null)"
     if [[ -n $dirty ]]; then
       clean=''
-      bgclr='yellow'
+      bgclr='#F28C28'
       fgclr='magenta'
     else
       clean=' ✔'
