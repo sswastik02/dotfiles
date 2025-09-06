@@ -166,17 +166,17 @@ exec swayidle -w \
     # Move focus to the parent container
     bindsym $mod+a focus parent
 #
-# Scratchpad: (Don't wanna use scratchpad)
+# Scratchpad:
 #
     # Sway has a "scratchpad", which is a bag of holding for windows.
     # You can send windows there and get them back later.
 
     # Move the currently focused window to the scratchpad
-    # bindsym $mod+Shift+minus move scratchpad
+    bindsym $mod+Shift+minus move scratchpad
 
     # Show the next scratchpad window or hide the focused scratchpad window.
     # If there are multiple scratchpad windows, this command cycles through them.
-    # bindsym $mod+minus scratchpad show
+    bindsym $mod+minus scratchpad show
 #
 # Resizing containers:
 #
@@ -269,15 +269,9 @@ set $ddterm-resize resize set 100ppt 40ppt, move position 0 0
 for_window [app_id="$ddterm-id"] {
   floating enable
   $ddterm-resize
-  move to scratchpad
-  scratchpad show
 }
 
-# show existing or start new dropdown terminal
-bindsym Ctrl+Escape exec swaymsg '[app_id="$ddterm-id"] scratchpad show' \
-  || $ddterm && \
-	sleep .1 && $ddterm-resize
-# ^-- resize again, case moving to different output
+bindsym Ctrl+Escape exec ~/.config/sway/ddterm.sh $ddterm-id "$ddterm"
 
 # Status Bar:
 #
